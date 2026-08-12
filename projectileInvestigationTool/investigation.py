@@ -23,7 +23,7 @@ def main():
     print(f"The maximum height is {np.max(y)} m")
 
     #Plot Position vs. Time
-    position_time_plot(time, y)
+    plot_values(time, y, label = "Position")
 
     #Plot vertical velocity vs. Time
 
@@ -60,12 +60,12 @@ def trajectory(time, angle, v_0, g, y0):
 
     return x, y
 
-def position_time_plot(time, y):
+def plot_values(x, y, label):
     fig, ax = plt.subplots()
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Position (m)")
-    ax.set_title("Position vs. Time")
-    ax.plot(time, y, label = "Position")
+    ax.set_xlabel(input("Enter x-axis label: "))
+    ax.set_ylabel(input("Enter y-axis label: "))
+    ax.set_title(input("Enter plot title: "))
+    ax.plot(x, y, label = label)
     ax.legend()
     plt.show()
 
