@@ -15,6 +15,7 @@ def main():
 
     #Find trajectory
     x, y = trajectory(time, radian_angle, v0, g, y0)
+    position = (x,y)
 
     #Print range (based on available sample points)
     print(f"The total range is {np.max(x)} m")
@@ -23,7 +24,7 @@ def main():
     print(f"The maximum height is {np.max(y)} m")
 
     #Plot Position vs. Time
-    plot_values(time, y, label = "Position")
+    plot_values(time, position, xlabel = "Time (s)", ylabel = "Position (m)", title = "Position vs. Time", labels = ["Position (x-component)", "Position (y-component)"])
 
     #Plot vertical velocity vs. Time
 
@@ -60,13 +61,16 @@ def trajectory(time, angle, v_0, g, y0):
 
     return x, y
 
-def plot_values(x, y, label):
+def plot_values(x, y, xlabel, ylabel, title, labels):
     fig, ax = plt.subplots()
-    ax.set_xlabel(input("Enter x-axis label: "))
-    ax.set_ylabel(input("Enter y-axis label: "))
-    ax.set_title(input("Enter plot title: "))
-    ax.plot(x, y, label = label)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    for value, label in zip(y, labels):
+        ax.plot(x, value, label = label)
+    
     ax.legend()
+    plt.savefig(input("Save as: "))
     plt.show()
 
 
