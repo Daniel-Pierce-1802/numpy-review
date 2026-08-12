@@ -19,7 +19,8 @@ def main():
     position = (x, y)
 
     # Save Trajectory Data
-    
+    data = np.column_stack((time, x, y))
+    save_data(data, "trajectory_data.txt", "Time x y")
 
     # Find Vertical Velocity
     velocity = calculate_velocity(v0, g, time)
@@ -98,6 +99,10 @@ def trajectory(time, angle, v_0, g, y0):
 
 
 def plot_values(x, y, xlabel, ylabel, title, labels, save):
+    """
+    This function plots values by taking as input an x value, and then a list/tuple for a y value. It also requires an xlabel, ylabel, title, list of labels (can consist of one element)
+    and a file name for saving purposes.
+    """
     fig, ax = plt.subplots()
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
@@ -113,6 +118,17 @@ def plot_values(x, y, xlabel, ylabel, title, labels, save):
 def calculate_velocity(v_initial, a, t):
     v = v_initial + a * t
     return v
+
+
+def save_data(data, file_name, header):
+    np.savetxt(
+        file_name,
+        data,
+        fmt="%.2f",
+        header=header,
+    )
+
+    print(f"Data saved successfully!")
 
 
 if __name__ == "__main__":
