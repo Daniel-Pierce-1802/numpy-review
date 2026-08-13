@@ -83,7 +83,7 @@ def flight_time(angle, v_0, g, y_0):
     """
     Takes as input an angle in radians, initial velocity, acceleration due to gravity, and initial position; then calculates the total flight time of a projectile.
     """
-    t = (v_0 * np.sin(angle) + np.sqrt((v_0*np.sin(angle))**2 + 2*g*y_0))/g
+    t = (v_0 * np.sin(angle) + np.sqrt((v_0 * np.sin(angle)) ** 2 + 2 * g * y_0)) / g
 
     return t
 
@@ -119,7 +119,7 @@ def calculate_velocity(v_initial, angle, a, t):
     """
     Calculates the velocity of a projectile given as input the initial velocity, angle in radians, acceleration, and time.
     """
-    v = v_initial*np.sin(angle) - a * t
+    v = v_initial * np.sin(angle) - a * t
     return v
 
 
