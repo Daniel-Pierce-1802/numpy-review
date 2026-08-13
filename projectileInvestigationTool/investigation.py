@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 def main():
     v0, launch_angle, y0, g = get_constants()
     radian_angle = np.deg2rad(launch_angle)
-    time_final = flight_time(radian_angle, v0, g)
+    time_final = flight_time(radian_angle, v0, g, y0)
     time = np.linspace(0, time_final, 100)
 
     # Print time of flight
@@ -20,10 +20,10 @@ def main():
 
     # Save Trajectory Data
     data = np.column_stack((time, x, y))
-    save_data(data, "trajectory_data.txt", "Time x y")
+    print(save_data(data, "trajectory_data.txt", "Time x y"))
 
     # Find Vertical Velocity
-    velocity = calculate_velocity(v0, g, time)
+    velocity = calculate_velocity(v0, radian_angle, g, time)
 
     # Print range (based on available sample points)
     print(f"The total range is {np.max(x)} m")
@@ -79,11 +79,11 @@ def get_constants():
     return v0, launch_angle, y0, g
 
 
-def flight_time(angle, v_0, g):
+def flight_time(angle, v_0, g, y_0):
     """
-    Takes as input an angle in radians and calculates the total flight time of a projectile
+    Takes as input an angle in radians, initial velocity, acceleration due to gravity, and initial position; then calculates the total flight time of a projectile.
     """
-    t = (2 * v_0 * np.sin(angle)) / g
+    t = (v_0 * np.sin(angle) + np.sqrt((v_0*np.sin(angle))**2 + 2*g*y_0))/g
 
     return t
 
@@ -111,16 +111,22 @@ def plot_values(x, y, xlabel, ylabel, title, labels, save):
         ax.plot(x, value, label=label)
 
     ax.legend()
-    plt.savefig(save)
+    fig.savefig(save)
     plt.show()
 
 
-def calculate_velocity(v_initial, a, t):
-    v = v_initial + a * t
+def calculate_velocity(v_initial, angle, a, t):
+    """
+    Calculates the velocity of a projectile given as input the initial velocity, angle in radians, acceleration, and time.
+    """
+    v = v_initial*np.sin(angle) - a * t
     return v
 
 
 def save_data(data, file_name, header):
+    """
+    Saves data to a text file. Takes the data to be saved, the file_name, and header as input.
+    """
     np.savetxt(
         file_name,
         data,
@@ -128,7 +134,7 @@ def save_data(data, file_name, header):
         header=header,
     )
 
-    print(f"Data saved successfully!")
+    return f"Data saved successfully!"
 
 
 if __name__ == "__main__":
