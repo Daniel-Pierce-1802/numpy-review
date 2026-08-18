@@ -13,7 +13,7 @@ def main():
 
     y0 = 10
     k = 0.5
-    h = 0.1
+    dt = 0.1
 
     # Initialize arrays for plotting
 
@@ -21,15 +21,22 @@ def main():
     t = 0.0
 
     # Euler's Method
-    y_old = y0
+    y_current = y0
 
     while t < 1.0:
-        y = y_old + h * -k * y_old
-        y_old = y
-        t += h
-        print(y_old)
+        y_next = y_current + dt * -k * y_current
+        y_current = y_next
+        y_numerical.append(y_current)
+        t_numerical.append(t)
+        t += dt
 
-
+    # Plot Euler's Method
+    fig, ax = plt.subplots()
+    ax.set_title(r"Numerical Solution to $dy/dt = -ky$")
+    ax.set_xlabel("Time")
+    ax.set_ylabel("y")
+    ax.plot(t_numerical, y_numerical, label = "Euler's Method")
+    plt.show()
     
     
 
