@@ -26,12 +26,12 @@ def main():
     ax.set_title(r"Numerical Solution to $dy/dt = -ky$")
     ax.set_xlabel("Time")
     ax.set_ylabel("y")
-    ax.plot(t_analytical, y_analytical, label="Analytical Solution")
 
     for dt in time_steps:
         t_numerical, y_numerical = eulers_method(y0, k, dt)
         ax.plot(t_numerical, y_numerical, label=f"Euler's Method (dt = {dt})")
-
+    
+    ax.plot(t_analytical, y_analytical, label="Analytical Solution", linestyle = "--", linewidth = 2.5)
     ax.legend()
     plt.show()
 
