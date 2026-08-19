@@ -14,8 +14,8 @@ def main():
     # Plot solutions
     fig, ax = plt.subplots()
     ax.set_title("Comparison of Numerical Methods for Radioactive Decay")
-    ax.set_xlabel("N")
-    ax.set_ylabel("Time (s)")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("N")
     ax.plot(euler_t, euler_N, label = "Euler's Method")
     ax.legend()
     plt.show()
