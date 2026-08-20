@@ -9,7 +9,14 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 def main():
-    euler_N, euler_t = euler(0.01, 0.001, 1000)
+    euler_N, euler_t = euler(0.01, 10, 1000)
+    rk4_t, rk4_N = RK4(1000, 10)
+
+    # Compute analytical solution
+    N_0 = 1000
+    λ = 0.01
+    t = np.linspace(0,100)
+    analytical_solution = N_0 * np.exp(-λ*t)
 
     # Plot solutions
     fig, ax = plt.subplots()
@@ -17,6 +24,8 @@ def main():
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("N")
     ax.plot(euler_t, euler_N, label = "Euler's Method")
+    ax.plot(rk4_t, rk4_N, label = "RK4")
+    ax.plot(t, analytical_solution, label = "Analytical Solution", linestyle = "--")
     ax.legend()
     plt.show()
 
@@ -24,7 +33,7 @@ def euler(λ, dt, N_0):
     N_numerical, t_numerical = [N_0], [0.0]
     N_current = N_0
     t = 0.0
-    while t < 1000.0:
+    while t < 100.0:
         N_next = N_current + dt * (-λ * N_current)
         N_current = N_next
         N_numerical.append(N_current)
@@ -33,8 +42,29 @@ def euler(λ, dt, N_0):
     
     return N_numerical, t_numerical
 
-def RK4():
-    ...
+def RK4(N_current, dt):
+    # Set Initial Conditions
+    t = 0.0
+    N_numerical, t_numerical = [N_current], [0.0]
+
+    while t < 100.0:
+        k1 = fun(t, N_current)
+        k2 = fun(t + dt/2, N_current + (dt/2)*k1)
+        k3 = fun(t + dt/2, N_current + (dt/2)*k2)
+        k4 = fun(t + dt, N_current + (dt*k3))
+        N_next = N_current + (dt/6) * (k1 + 2*k2 + 2*k3 + k4)
+        N_numerical.append(N_next)
+        N_current = N_next
+        t += dt
+        t_numerical.append(t)
+    
+    return t_numerical, N_numerical
+
+def fun(t, N_current):
+    λ = 0.01
+    fun = -λ * N_current
+
+    return fun
 
 
 
